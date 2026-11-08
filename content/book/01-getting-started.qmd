@@ -58,10 +58,12 @@ In SPSS or Excel, you click menus, and the program changes your spreadsheet or d
 
 ## Installing Python and VS Code
 
-Working with Python involves two tools:
+Working with Python involves two separate pieces of software:
 
-1. **Python** is the engine that executes your commands.
-2. An **editor** (or Integrated Development Environment, IDE) is the program in which you drive it: you write Python code there, run it, and inspect your tables and charts.
+1. **Python** is the engine running in the background that executes your commands and does the math.
+2. An **editor** (or Integrated Development Environment, IDE) is your workspace: the program where you write Python code, run it, and inspect your tables and charts.
+
+You will almost never open Python by itself. Instead, you open your editor, and the editor runs Python for you behind the scenes.
 
 You will almost never open Python by itself; you open your editor, and the editor talks to Python for you.
 
@@ -119,7 +121,7 @@ The standard arithmetic operators in Python are:
 * `-` for subtraction
 * `*` for multiplication
 * `/` for division
-* `**` for exponents/powers (for example, `2 ** 3` evaluates to 8; note that in Python, `^` is a bitwise operator, not power!)
+- `**` for exponents/powers (for example, `2 ** 3` evaluates to 8; be careful if you are coming from Excel, as `^` does not calculate powers in Python)
 
 ```{python}
 2 ** 3
@@ -207,9 +209,11 @@ This error—`NameError: name 'Education' is not defined`—is one of the most f
 
 ### Missing values
 
-Real empirical data almost always contains missing answers. A participant might decline to answer their income, or an instrument might briefly lose power. 
+Real empirical data almost always contains missing answers. A participant might skip a question about their income, or leave a study before the second semester.
 
-In pure Python, the absence of a value is represented by the special object `None`. When working with tabular data and numerical calculations in **pandas** and scientific libraries, missing numerical values are represented as `NaN` (short for *Not a Number*, floating-point missing value).
+In standard Python, the absence of a value is represented by the special keyword `None`. When working with data tables and numerical calculations in **pandas** (the data library we will load shortly), missing values are typically shown as `NaN`, short for *Not a Number*.
+
+One headache with raw calculations is that a single missing value can derail a whole formula: if you ask standard Python to add up a list of numbers containing a missing entry, the calculation fails. Fortunately, data libraries like pandas are built for real survey data. Functions such as `.mean()` and `.sum()` automatically ignore missing entries by default, calculating the result across all participants who actually responded.
 
 In Python and pandas, mathematical calculations on missing values are handled safely:
 
@@ -222,14 +226,12 @@ sleep_with_gap
 
 In pandas, functions like `.mean()` and `.sum()` are designed specifically for research data and automatically handle missing values cleanly, as you will see shortly.
 
-## Functions and methods
-
-You have already used several built-in **functions**: `sum()`, `len()`, `type()`, and `print()`. A function takes one or more inputs, performs a procedure, and returns a result. You call a function by writing its name followed by parentheses `()`, enclosing the inputs inside:
+Alongside standalone functions, Python objects also have **methods**. A method is a function attached directly to a specific object, called by typing a dot `.` after the variable name. Because `faculty` is a text string, it comes with built-in text methods to change its casing:
 
 ```{python}
-print(sum(sleep))
-print(max(sleep))
-print(len(sleep))
+faculty = "Education"
+print(faculty.lower())
+print(faculty.upper())
 ```
 
 Inputs passed to a function are called **arguments**. If a function accepts multiple arguments, they are separated by commas. For example, `round()` takes the number you want to round, and the number of decimal digits:
